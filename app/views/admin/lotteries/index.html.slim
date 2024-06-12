@@ -1,0 +1,31 @@
+h2 Loterias
+.panel.panel-default
+  .table-responsive
+    table.table.table-striped.b-t.b-light
+      thead
+        tr
+          th.text-center Evento
+          th.text-center Data do Evento
+          th.text-center Status
+          th.text-center Tickets
+          th.text-center Resultado
+          th.text-center(width=210) Ações
+      tbody
+        - collection.order(id: :desc).each do |r|
+          tr
+            td.text-center = r.event
+            td.text-center = r.date_event
+            td.text-center
+              - if r.status?
+                = link_to admin_active_lottery_path(r), method: :put, class: "btn btn-success" do
+                  = icon('fas fa', 'check')
+              - else
+                = link_to admin_active_lottery_path(r), method: :put, class: "btn btn-danger" do
+                  = icon('fas fa', 'ban')
+            td.text-center = r.ticket
+            td.text-center 
+              - if r.result.present? 
+                = r.result
+            td.text-center.links-actions
+              = render 'admin/shared/actions_lottery', r: r
+= render 'admin/shared/create'
